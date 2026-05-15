@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Álbum Copa 2026</title>
+<meta name="theme-color" content="#006233">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#006233;--gd:#004d26;--gl:#00a854;
+  --gold:#FFD700;--goldd:#e6c200;
+  --bg:#0d1b2a;--bg2:#132238;--bg3:#1a2f47;
+  --card:rgba(255,255,255,.06);--cardh:rgba(255,255,255,.11);
+  --txt:#f0f4f8;--muted:rgba(240,244,248,.55);--dim:rgba(240,244,248,.3);
+  --red:#ef4444;--orange:#f59e0b;--em:#10b981;
+  --r:13px;--rlg:20px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+  background:var(--bg);color:var(--txt);min-height:100vh;
+  overflow-x:hidden;-webkit-tap-highlight-color:transparent
+}
+#hdr{
+  position:sticky;top:0;z-index:100;
+  background:linear-gradient(135deg,var(--gd) 0%,var(--g) 55%,#007d40 100%);
+  box-shadow:0 2px 20px rgba(0,0,0,.5)
+}
+.hdr-inner{padding:11px 15px 9px}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.hdr-left{display:flex;align-items:center;gap:8px}
+.btn-back{
+  background:rgba(255,255,255,.18);border:none;color:#fff;
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:17px;transition:background .15s;flex-shrink:0
+}
+.btn-back:active{background:rgba(255,255,255,.3)}
+.hdr-title{font-size:1.05rem;font-weight:800;letter-spacing:.2px;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.hdr-title span{color:var(--gold)}
+.hdr-sub{font-size:.62rem;opacity:.72;letter-spacing:1.4px;text-transform:uppercase;margin-top:1px}
+.hdr-pct{font-size:.85rem;font-weight:800;color:var(--gold);text-align:right;line-height:1.15}
+.hdr-pct small{display:block;color:rgba(255,255,255,.65);font-size:.6rem;font-weight:400;text-transform:uppercase;letter-spacing:.4px}
+.badge-cmp{background:var(--gold);color:#000;font-size:.6rem;font-weight:900;padding:2px 7px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase}
+.prog-track{background:rgba(0,0,0,.35);border-radius:20px;height:6px;overflow:hidden}
+.prog-fill{
+  height:100%;min-width:2px;
+  background:linear-gradient(90deg,var(--goldd),var(--gold),#ffe566);
+  border-radius:20px;transition:width .7s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden
+}
+.prog-fill::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+  background-size:200% 100%;animation:shine 2.5s infinite
+}
+@keyframes shine{0%{background-position:-200% 0}100%{background-position:200% 0}}
+#app{padding-bottom:84px}
+.fade-in{animation:fadein .28s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.hero{
+  background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%);
+  padding:20px 16px 16px;text-align:center;position:relative;overflow:hidden
+}
+.hero::before{
+  content:'⚽';position:absolute;font-size:130px;opacity:.035;
+  top:-15px;right:-15px;pointer-events:none;line-height:1
+}
+.hero-pct{
+  font-size:3.8rem;font-weight:900;color:var(--gold);line-height:1;
+  text-shadow:0 2px 14px rgba(255,215,0,.28)
+}
+.hero-label{font-size:.8rem;color:var(--muted);margin-top:3px;letter-spacing:.4px}
+.hero-row{display:flex;justify-content:center;gap:28px;margin-top:15px}
+.hero-stat{text-align:center}
+.hero-num{font-size:1.45rem;font-weight:800;display:block;line-height:1}
+.hero-slabel{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;display:block;margin-top:2px}
+.hero-stat.hv .hero-num{color:var(--em)}
+.hero-stat.ms .hero-num{color:var(--red)}
+.hero-stat.rp .hero-num{color:var(--gold)}
+.cmp-panel{
+  margin:0 15px 14px;
+  background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,215,0,.04));
+  border:1px solid rgba(255,215,0,.22);border-radius:var(--rlg);padding:14px
+}
+.cmp-title{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold);font-weight:800;margin-bottom:11px;display:flex;align-items:center;gap:5px}
+.cmp-rank{background:rgba(0,0,0,.22);border-radius:var(--r);padding:11px 14px;margin-bottom:11px;text-align:center}
+.cmp-rank-txt{font-size:.98rem;font-weight:700}
+.cmp-rank-txt.win{color:var(--em)}
+.cmp-rank-txt.lose{color:var(--red)}
+.cmp-rank-txt.tie{color:var(--gold)}
+.cmp-rank-sub{font-size:.68rem;color:var(--muted);margin-top:2px}
+.cmp-sec{margin-bottom:10px}
+.cmp-sec:last-child{margin-bottom:0}
+.cmp-sec-ttl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px;padding:3px 7px;border-radius:5px;display:inline-block}
+.cmp-sec-ttl.g{background:rgba(16,185,129,.15);color:var(--em)}
+.cmp-sec-ttl.o{background:rgba(245,158,11,.15);color:var(--orange)}
+.cmp-pills{display:flex;flex-wrap:wrap;gap:5px}
+.cmp-pill{background:rgba(255,255,255,.08);border-radius:5px;padding:3px 7px;font-size:.67rem;font-weight:600;white-space:nowrap}
+.cmp-empty{font-size:.72rem;color:var(--dim);font-style:italic}
+.cmp-exit{margin-top:10px;width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--muted);border-radius:8px;padding:7px;font-size:.72rem;cursor:pointer;transition:background .15s}
+.cmp-exit:active{background:rgba(255,255,255,.12)}
+.groups-wrap{padding:0 15px}
+.sec-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07)}
+.grp-card{background:var(--card);border-radius:var(--r);margin-bottom:11px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.grp-hdr{padding:9px 13px;background:rgba(0,90,45,.28);border-bottom:1px solid rgba(255,255,255,.06);font-size:.72rem;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:rgba(255,255,255,.82);display:flex;align-items:center;gap:6px}
+.grp-hdr::before{content:'';width:3px;height:13px;background:var(--gold);border-radius:2px}
+.team-row{display:flex;align-items:center;padding:10px 13px;cursor:pointer;transition:background .12s;border-bottom:1px solid rgba(255,255,255,.04);gap:10px}
+.team-row:last-child{border-bottom:none}
+.team-row:active{background:var(--cardh)}
+.t-flag{font-size:1.55rem;line-height:1;min-width:30px;text-align:center}
+.t-info{flex:1;min-width:0}
+.t-name{font-size:.88rem;font-weight:600}
+.t-prog{font-size:.65rem;color:var(--muted);margin-top:1px}
+.t-bar{width:56px;height:4px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden;flex-shrink:0}
+.t-fill{height:100%;background:var(--em);border-radius:10px;transition:width .4s}
+.t-fill.full{background:var(--gold)}
+.t-arr{color:var(--dim);font-size:.75rem;flex-shrink:0}
+.tv-hdr{padding:20px 15px 14px;text-align:center}
+.tv-flag{font-size:4rem;line-height:1;margin-bottom:7px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.3))}
+.tv-name{font-size:1.45rem;font-weight:800;margin-bottom:3px}
+.tv-grp{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.tv-prog-box{margin:0 15px 14px;background:var(--bg3);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:12px}
+.tv-prog-n{font-size:1.9rem;font-weight:900;color:var(--gold);min-width:38px;line-height:1}
+.tv-prog-n span{font-size:.95rem;color:var(--muted)}
+.tv-prog-r{flex:1}
+.tv-prog-lbl{font-size:.68rem;color:var(--muted);margin-bottom:5px}
+.tv-bar-t{height:5px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden}
+.tv-bar-f{height:100%;background:linear-gradient(90deg,var(--g),var(--em));border-radius:10px;transition:width .6s}
+.stk-wrap{padding:0 15px}
+.stk-card{background:var(--card);border-radius:var(--r);padding:13px;margin-bottom:9px;border:1.5px solid rgba(255,255,255,.06);transition:border-color .2s,background .2s}
+.stk-card.s1{border-color:rgba(16,185,129,.38);background:rgba(16,185,129,.055)}
+.stk-card.s2{border-color:rgba(255,215,0,.32);background:rgba(255,215,0,.045)}
+.stk-top{display:flex;align-items:center;margin-bottom:11px;gap:9px}
+.stk-num{background:linear-gradient(135deg,var(--gd),var(--g));color:#fff;font-size:.73rem;font-weight:800;width:35px;height:35px;border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);flex-shrink:0;letter-spacing:-.4px}
+.stk-name{flex:1;font-size:.93rem;font-weight:600;min-width:0}
+.stk-icon{font-size:1rem;width:22px;text-align:center;flex-shrink:0}
+.stk-cmp{font-size:.63rem;padding:2px 6px;border-radius:4px;font-weight:700;margin-bottom:8px;display:inline-block}
+.stk-cmp.need{background:rgba(16,185,129,.15);color:var(--em)}
+.stk-cmp.give{background:rgba(245,158,11,.15);color:var(--orange)}
+.stk-photo{width:40px;height:52px;border-radius:7px;object-fit:cover;flex-shrink:0;border:1.5px solid rgba(255,255,255,.13);background:var(--bg3);animation:fadein .25s ease}
+.stk-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.btn-s{padding:8px 3px;border-radius:8px;border:1.5px solid;font-size:.7rem;font-weight:700;cursor:pointer;text-align:center;transition:all .13s ease;letter-spacing:.2px;line-height:1.25;-webkit-tap-highlight-color:transparent;background:transparent}
+.btn-f{border-color:rgba(239,68,68,.35);color:rgba(239,68,68,.65)}
+.btn-f.on,.btn-f:active{background:rgba(239,68,68,.15);border-color:var(--red);color:var(--red);transform:scale(1.04)}
+.btn-t{border-color:rgba(16,185,129,.35);color:rgba(16,185,129,.65)}
+.btn-t.on,.btn-t:active{background:rgba(16,185,129,.15);border-color:var(--em);color:var(--em);transform:scale(1.04)}
+.btn-r{border-color:rgba(255,215,0,.35);color:rgba(255,215,0,.65)}
+.btn-r.on,.btn-r:active{background:rgba(255,215,0,.12);border-color:var(--gold);color:var(--gold);transform:scale(1.04)}
+#fab{position:fixed;bottom:22px;right:18px;z-index:200}
+.fab{background:linear-gradient(135deg,var(--g),var(--gl));color:#fff;border:none;border-radius:28px;padding:13px 20px;font-size:.82rem;font-weight:800;cursor:pointer;box-shadow:0 6px 24px rgba(0,98,51,.55);display:flex;align-items:center;gap:7px;transition:transform .13s,box-shadow .13s;letter-spacing:.2px}
+.fab:active{transform:scale(.96);box-shadow:0 3px 14px rgba(0,98,51,.4)}
+#toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(16px);background:rgba(16,185,129,.95);color:#fff;padding:9px 18px;border-radius:28px;font-size:.82rem;font-weight:700;opacity:0;transition:all .28s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:9999;white-space:nowrap;box-shadow:0 4px 18px rgba(0,0,0,.3)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.warn{background:rgba(245,158,11,.95)}
+.complete-banner{margin:0 15px 14px;background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,215,0,.07));border:1px solid rgba(255,215,0,.35);border-radius:var(--rlg);padding:16px;text-align:center}
+.complete-banner .trophy{font-size:2.5rem;margin-bottom:6px}
+.complete-banner p{font-size:.88rem;font-weight:700;color:var(--gold)}
+@media(min-width:520px){
+  #hdr,#app,#fab{max-width:480px;left:50%;transform:translateX(-50%);right:auto}
+  #hdr{position:sticky;transform:none;left:0;right:0;max-width:100%}
+  #app{margin:0 auto}
+  #fab{right:calc(50% - 222px)}
+}
+@media(max-width:360px){
+  .hero-pct{font-size:3rem}
+  .btn-s{font-size:.63rem;padding:7px 2px}
+}
+</style>
+</head>
+<body>
+<div id="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-row" id="hdr-row"></div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+</div>
+<div id="app"></div>
+<div id="fab">
+  <button class="fab" onclick="generateLink()">🔗 Gerar Meu Link</button>
+</div>
+<div id="toast"></div>
+<script src="players.js" onerror="void 0"></script>
+<script>if(typeof PLAYERS==='undefined')window.PLAYERS={};</script>
+<script>
+// ─── DADOS ────────────────────────────────────────────────────────────────────
+// Posições: [0]=Logo FOIL, [1]=GK, [2-6]=DEF, [7-11]=MID, [12]=Foto Time,
+//           [13]=MID, [14-19]=ATK   •   stickerNums: preencher após scraper.py
+// TEAMS completo: intro + 48 times + estrelas + coca-cola
+const TEAMS = [
+  {id:0, code:"FWC", name:"FIFA World Cup 2026", group:"★", flag:"🏆", stickerNums:null, players:["Panini Logo", "Official Emblem", "Official Emblem", "Official Mascots", "Official Slogan", "Official Ball", "Canada", "Mexico", "USA", "Italy 1934", "Uruguay 1950", "West Germany 1954", "Brazil 1962", "West Germany 1974", "Argentina 1986", "Brazil 1994", "Brazil 2002", "Italy 2006", "Germany 2014", "Argentina 2022"]},
+  {id:1, code:"CZE", name:"Tchéquia", group:"A", flag:"🇨🇿", stickerNums:null, players:["Emblem", "Matej Kovar", "Jindrich Stanek", "Ladislav Krejci", "Vladimir Coufal", "Jaroslav Zeleny", "Tomas Holes", "David Zima", "Michal Sadilek", "Lukas Provod", "Lukas Cerv", "Tomas Soucek", "Team Photo", "Pavel Sulc", "Matej Vydra", "Vasil Kusej", "Tomas Chory", "Vaclav Cerny", "Adam Hlozek", "Patrik Schick"]},
+  {id:2, code:"KOR", name:"Coreia do Sul", group:"A", flag:"🇰🇷", stickerNums:null, players:["Emblem", "Hyeon-woo Jo", "Seung-Gyu Kim", "Min-jae Kim", "Yu-min Cho", "Young-woo Seol", "Han-beom Lee", "Tae-seok Lee", "Myung-jae Lee", "Jae-sung Lee", "In-beom Hwang", "Kang-in Lee", "Team Photo", "Seung-ho Paik", "Jens Castrop", "Dongg-yeong Lee", "Gue-sung Cho", "Heung-min Son", "Hee-chan Hwang", "Hyeon-Gyu Oh"]},
+  {id:3, code:"MEX", name:"México", group:"A", flag:"🇲🇽", stickerNums:null, players:["Emblem", "Luis Malagón", "Johan Vasquez", "Jorge Sánchez", "Cesar Montes", "Jesus Gallardo", "Israel Reyes", "Diego Lainez", "Carlos Rodriguez", "Edson Alvarez", "Orbelin Pineda", "Marcel Ruiz", "Team Photo", "Érick Sánchez", "Hirving Lozano", "Santiago Giménez", "Raúl Jiménez", "Alexis Vega", "Roberto Alvarado", "Cesar Huerta"]},
+  {id:4, code:"RSA", name:"África do Sul", group:"A", flag:"🇿🇦", stickerNums:null, players:["Emblem", "Ronwen Williams", "Sipho Chaine", "Aubrey Modiba", "Samukele Kabini", "Mbekezeli Mbokazi", "Khulumani Ndamane", "Siyabonga Ngezana", "Khuliso Mudau", "Nkosinathi Sibisi", "Teboho Mokoena", "Thalente Mbatha", "Team Photo", "Bathusi Aubaas", "Yaya Sithole", "Sipho Mbule", "Lyle Foster", "Iqraam Rayners", "Mohau Nkota", "Oswin Appollis"]},
+  {id:5, code:"BIH", name:"Bósnia", group:"B", flag:"🇧🇦", stickerNums:null, players:["Emblem", "Nikola Vasilj", "Amer Dedic", "Sead Kolasinac", "Tarik Muharemovic", "Nihad Mujakic", "Nikola Katic", "Amir Hadziahmetovic", "Benjamin Tahirovic", "Armin Gigovic", "Ivan Sunjic", "Ivan Basic", "Team Photo", "Dzenis Burnic", "Esmir Bajraktarevic", "Amar Memic", "Ermedin Demirovic", "Edin Dzeko", "Samed Bazdar", "Haris Tabakovic"]},
+  {id:6, code:"CAN", name:"Canadá", group:"B", flag:"🇨🇦", stickerNums:null, players:["Emblem", "Dayne St.Clair", "Alphonso Davies", "Alistair Johnston", "Samuel Adekugbe", "Richie Laryea", "Derek Cornelius", "Moïse Bombito", "Kamal Miller", "Stephen Eustáquio", "Ismaël Koné", "Jonathan Osorio", "Team Photo", "Jacob Shaffelburg", "Mathieu Choinière", "Niko Sigur", "Tajon Buchanan", "Liam Millar", "Cyle Larin", "Jonathan David"]},
+  {id:7, code:"QAT", name:"Catar", group:"B", flag:"🇶🇦", stickerNums:null, players:["Emblem", "Meshaal Barsham", "Sultan Albrake", "Lucas Mendes", "Homam Ahmed", "Boualem Khoukhi", "Pedro Miguel", "Tarek Salman", "Mohamed Al-Mannai", "Karim Boudiaf", "Assim Madibo", "Ahmed Fatehi", "Team Photo", "Mohammed Waad", "Abdulaziz Hatem", "Hassan Al-Haydos", "Edmilson Junior", "Akram Hassan Afif", "Ahmed Al Ganehi", "Almoez Ali"]},
+  {id:8, code:"SUI", name:"Suíça", group:"B", flag:"🇨🇭", stickerNums:null, players:["Emblem", "Gregor Kobel", "Yvon Mvogo", "Manuel Akanji", "Ricardo Rodriguez", "Nico Elvedi", "Aurèle Amenda", "Silvan Widmer", "Granit Xhaka", "Denis Zakaria", "Remo Freuler", "Fabian Rieder", "Team Photo", "Ardon Jashari", "Johan Manzambi", "Michel Aebischer", "Breel Embolo", "Ruben Vargas", "Dan Ndoye", "Zeki Amdouni"]},
+  {id:9, code:"BRA", name:"Brasil", group:"C", flag:"🇧🇷", stickerNums:null, players:["Emblem", "Alisson", "Bento", "Marquinhos", "Éder Militão", "Gabriel Magalhães", "Danilo", "Wesley", "Lucas Paquetá", "Casemiro", "Bruno Guimarães", "Luiz Henrique", "Team Photo", "Vinicius Júnior", "Rodrygo", "João Pedro", "Matheus Cunha", "Gabriel Martinelli", "Raphinha", "Estévão"]},
+  {id:10, code:"HAI", name:"Haiti", group:"C", flag:"🇭🇹", stickerNums:null, players:["Emblem", "Johny Placide", "Carlens Arcus", "Martin Expérience", "Jean-Kevin Duverne", "Ricardo Adé", "Duke Lacroix", "Garven Metusala", "Hannes Delcroix", "Leverton Pierre", "Danley Jean Jacques", "Jean-Ricner Bellegarde", "Team Photo", "Christopher Attys", "Derrick Etienne Jr", "Josue Casimir", "Ruben Providence", "Duckens Nazon", "Louicius Deedson", "Frantzdy Pierrot"]},
+  {id:11, code:"MAR", name:"Marrocos", group:"C", flag:"🇲🇦", stickerNums:null, players:["Emblem", "Yassine Bounou", "Munir El Kajoui", "Achraf Hakimi", "Noussair Mazraoui", "Nayef Aguerd", "Romain Saïss", "Jawad El Yamiq", "Adam Masina", "Sofyan Amrabat", "Azzedine Ounahi", "Eliesse Ben Seghir", "Team Photo", "Bilal El Khannouss", "Ismael Saibari", "Youssef En-Nesyri", "Abde Ezzalzouli", "Soufiane Rahimi", "Brahim Diaz", "Ayoub El Kaabi"]},
+  {id:12, code:"SCO", name:"Escócia", group:"C", flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", stickerNums:null, players:["Emblem", "Angus Gunn", "Jack Hendry", "Kieran Tierney", "Aaron Hickey", "Andrew Robertson", "Scott McKenna", "John Souttar", "Anthony Ralston", "Grant Hanley", "Scott McTominay", "Billy Gilmour", "Team Photo", "Lewis Ferguson", "Ryan Christie", "Kenny McLean", "John McGinn", "Lyndon Dykes", "Che Adams", "Ben Gannon-Doak"]},
+  {id:13, code:"AUS", name:"Austrália", group:"D", flag:"🇦🇺", stickerNums:null, players:["Emblem", "Mathew Ryan", "Joe Gauci", "Harry Souttar", "Alessandro Circati", "Jordan Bos", "Aziz Behich", "Cameron Burgess", "Lewis Miller", "Milos Degenek", "Jackson Irvine", "Riley McGree", "Team Photo", "Aiden O'Neill", "Connor Metcalfe", "Patrick Yazbek", "Craig Goodwin", "Kusini Yengi", "Nestory Irankunda", "Mohamed Touré"]},
+  {id:14, code:"PAR", name:"Paraguai", group:"D", flag:"🇵🇾", stickerNums:null, players:["Emblem", "Roberto Fernandez", "Orlando Gill", "Gustavo Gomez", "Fabián Balbuena", "Juan José Cáceres", "Omar Alderete", "Junior Alonso", "Mathías Villasanti", "Diego Gomez", "Damián Bobadilla", "Andres Cubas", "Team Photo", "Matias Galarza Fonda", "Julio Enciso", "Alejandro Romero Gamarra", "Miguel Almirón", "Ramon Sosa", "Angel Romero", "Antonio Sanabria"]},
+  {id:15, code:"TUR", name:"Turquia", group:"D", flag:"🇹🇷", stickerNums:null, players:["Emblem", "Ugurcan Cakir", "Mert Muldur", "Zeki Celik", "Abdulkerim Bardakci", "Caglar Soyuncu", "Merih Demiral", "Ferdi Kadioglu", "Kaan Ayhan", "Ismail Yuksek", "Hakan Calhanoglu", "Orkun Kokcu", "Team Photo", "Arda Guler", "Irfan Can Kahveci", "Yunus Akgun", "Can Uzun", "Baris Alper Yilmaz", "Kerem Akturkoglu", "Kenan Yildiz"]},
+  {id:16, code:"USA", name:"EUA", group:"D", flag:"🇺🇸", stickerNums:null, players:["Emblem", "Matt Freese", "Chris Richards", "Tim Ream", "Mark McKenzie", "Alex Freeman", "Antonee Robinson", "Tyler Adams", "Tanner Tessmann", "Weston McKenny", "Christian Roldan", "Timothy Weah", "Team Photo", "Diego Luna", "Malik Tillman", "Christian Pulisic", "Brenden Aaronson", "Ricardo Pepi", "Haji Wright", "Folarin Balogun"]},
+  {id:17, code:"CIV", name:"Costa do Marfim", group:"E", flag:"🇨🇮", stickerNums:null, players:["Emblem", "Yahia Fofana", "Ghislain Konan", "Wilfried Singo", "Odilon Kossounou", "Evan Ndicka", "Willy Boly", "Emmanuel Agbadou", "Ousmane Diomande", "Franck Kessie", "Seko Fofana", "Ibrahim Sangare", "Team Photo", "Jean-Philippe Gbamin", "Amad Diallo", "Sébastien Haller", "Simon Adingra", "Yan Diomande", "Evann Guessand", "Oumar Diakite"]},
+  {id:18, code:"CUW", name:"Curaçao", group:"E", flag:"🇨🇼", stickerNums:null, players:["Emblem", "Eloy Room", "Armando Obispo", "Sherel Floranus", "Jurien Gaari", "Joshua Brenet", "Roshon Van Eijma", "Shurandy Sambo", "Livano Comenencia", "Godfried Roemeratoe", "Juninho Bacuna", "Leandro Bacuna", "Team Photo", "Tahith Chong", "Kenji Gorre", "Jearl Margaritha", "Jurgen Locadia", "Jeremy Antonisse", "Gervane Kastaneer", "Sontje Hansen"]},
+  {id:19, code:"ECU", name:"Equador", group:"E", flag:"🇪🇨", stickerNums:null, players:["Emblem", "Hernán Galíndez", "Gonzalo Valle", "Piero Hincapié", "Pervis Estupiñán", "Willian Pacho", "Ángelo Preciado", "Joel Ordóñez", "Moises Caicedo", "Alan Franco", "Kendry Paez", "Pedro Vite", "Team Photo", "John Yeboah", "Leonardo Campana", "Gonzalo Plata", "Nilson Angulo", "Alan Minda", "Kevin Rodriguez", "Enner Valencia"]},
+  {id:20, code:"GER", name:"Alemanha", group:"E", flag:"🇩🇪", stickerNums:null, players:["Emblem", "Marc-André ter Stegen", "Jonathan Tah", "David Raum", "Nico Schlotterbeck", "Antonio Rüdiger", "Waldemar Anton", "Ridle Baku", "Maximilian Mittelstadt", "Joshua Kimmich", "Florian Wirtz", "Felix Nmecha", "Team Photo", "Leon Goretzka", "Jamal Musiala", "Serge Gnabry", "Kai Havertz", "Leroy Sane", "Karim Adeyemi", "Nick Woltemade"]},
+  {id:21, code:"JPN", name:"Japão", group:"F", flag:"🇯🇵", stickerNums:null, players:["Emblem", "Zion Suzuki", "Henry Heroki Mochizuki", "Ayumu Seko", "Junnosuke Suzuki", "Shogo Taniguchi", "Tsuyoshi Watanabe", "Kaishu Sano", "Yuki Soma", "Ao Tanaka", "Daichi Kamada", "Takefusa Kubo", "Team Photo", "Ritsu Doan", "Keito Nakamura", "Takumi Minamino", "Shuto Machino", "Junya Ito", "Koki Ogawa", "Ayase Ueda"]},
+  {id:22, code:"NED", name:"Holanda", group:"F", flag:"🇳🇱", stickerNums:null, players:["Emblem", "Bart Verbruggen", "Virgil van Dijk", "Micky van de Ven", "Jurrien Timber", "Denzel Dumfries", "Nathan Aké", "Jeremie Frimpong", "Jan Paul van Hecke", "Tijjani Reijnders", "Ryan Gravenberch", "Teun Koopmeiners", "Team Photo", "Frenkie de Jong", "Xavi Simons", "Justin Kluivert", "Memphis Depay", "Donyell Malen", "Wout Weghorst", "Cody Gakpo"]},
+  {id:23, code:"SWE", name:"Suécia", group:"F", flag:"🇸🇪", stickerNums:null, players:["Emblem", "Victor Johansson", "Isak Hien", "Gabriel Gudmundsson", "Emil Holm", "Victor Nilsson Lindelöf", "Gustaf Lagerbielke", "Lucas Bergvall", "Hugo Larsson", "Jesper Karlström", "Yasin Ayari", "Mattias Svanberg", "Team Photo", "Daniel Svensson", "Ken Sema", "Roony Bardghji", "Dejan Kulusevski", "Anthony Elanga", "Alexander Isak", "Viktor Gyökeres"]},
+  {id:24, code:"TUN", name:"Tunísia", group:"F", flag:"🇹🇳", stickerNums:null, players:["Emblem", "Bechir Ben Said", "Aymen Dahmen", "Yan Valery", "Montassar Talbi", "Yassine Meriah", "Ali Abdi", "Dylan Bronn", "Ellyes Skhiri", "Aissa Laidouni", "Ferjani Sassi", "Mohamed Ali Ben Romdhane", "Team Photo", "Hannibal Mejbri", "Elias Achouri", "Elias Saad", "Hazem Mastouri", "Ismael Gharbi", "Sayfallah Ltaief", "Naim Sliti"]},
+  {id:25, code:"BEL", name:"Bélgica", group:"G", flag:"🇧🇪", stickerNums:null, players:["Emblem", "Thibaut Courtois", "Arthur Theate", "Timothy Castagne", "Zeno Debast", "Brandon Mechele", "Maxim De Cuyper", "Thomas Meunier", "Youri Tielemans", "Amadou Onana", "Nicolas Raskin", "Alexis Saelemaekers", "Team Photo", "Hans Vanaken", "Kevin De Bruyne", "Jérémy Doku", "Charles De Ketelaere", "Leandro Trossard", "Loïs Openda", "Romelu Lukaku"]},
+  {id:26, code:"EGY", name:"Egito", group:"G", flag:"🇪🇬", stickerNums:null, players:["Emblem", "Mohamed El Shenawy", "Mohamed Hany", "Mohamed Hamdy", "Yasser Ibrahim", "Khaled Sobhi", "Ramy Rabia", "Hossam Abdelmaguid", "Ahmed Fatouh", "Marwan Attia", "Zizo", "Hamdy Fathy", "Team Photo", "Mohamed Lasheen", "Emam Ashour", "Osama Faisal", "Mohamed Salah", "Mostafa Mohamed", "Trezeguet", "Omar Marmoush"]},
+  {id:27, code:"IRN", name:"Irã", group:"G", flag:"🇮🇷", stickerNums:null, players:["Emblem", "Alireza Beiranvand", "Morteza Pouraliganji", "Ehsan Hajsafi", "Milad Mohammadi", "Shojae Khalilzadeh", "Ramin Rezaeian", "Hossein Kanaani", "Sadegh Moharrami", "Saleh Hardani", "Saeed Ezatolahi", "Saman Ghoddos", "Team Photo", "Omid Noorafkan", "Roozbeh Cheshmi", "Mohammad Mohebi", "Sardar Azmoun", "Mehdi Taremi", "Alireza Jahanbakhsh", "Ali Gholizadeh"]},
+  {id:28, code:"NZL", name:"Nova Zelândia", group:"G", flag:"🇳🇿", stickerNums:null, players:["Emblem", "Max Crocombe", "Alex Paulsen", "Michael Boxall", "Liberato Cacace", "Tim Payne", "Tyler Bindon", "Francis de Vries", "Finn Surman", "Joe Bell", "Sarpreet Singh", "Ryan Thomas", "Team Photo", "Matthew Garbett", "Marko Stamenić", "Ben Old", "Chris Wood", "Elijah Just", "Callum McCowatt", "Kosta Barbarouses"]},
+  {id:29, code:"ALG", name:"Argélia", group:"H", flag:"🇩🇿", stickerNums:null, players:["Emblem", "Alexis Guendouz", "Ramy Bensebaini", "Youcef Atal", "Rayan Aït-Nouri", "Mohamed Amine Tougai", "Aïssa Mandi", "Ismael Bennacer", "Houssem Aouar", "Hicham Boudaoui", "Ramiz Zerrouki", "Nabil Bentaleb", "Team Photo", "Farés Chaibi", "Riyad Mahrez", "Said Benrahma", "Anis Hadj Moussa", "Amine Gouiri", "Baghdad Bounedjah", "Mohammed Amoura"]},
+  {id:30, code:"ARG", name:"Argentina", group:"H", flag:"🇦🇷", stickerNums:null, players:["Emblem", "Emiliano Martinez", "Nahuel Molina", "Cristian Romero", "Nicolas Otamendi", "Nicolas Tagliafico", "Leonardo Balerdi", "Enzo Fernandez", "Alexis Mac Allister", "Rodrigo De Paul", "Exequiel Palacios", "Leandro Paredes", "Team Photo", "Nico Paz", "Franco Mastantuono", "Nico Gonzalez", "Lionel Messi", "Lautaro Martinez", "Julian Alvarez", "Giuliano Simeone"]},
+  {id:31, code:"CPV", name:"Cabo Verde", group:"H", flag:"🇨🇻", stickerNums:null, players:["Emblem", "Vozinha", "Logan Costa", "Pico", "Diney", "Steven Moreira", "Wagner Pina", "Joao Paulo", "Yannick Semedo", "Kevin Pina", "Patrick Andrade", "Jamiro Monteiro", "Team Photo", "Deroy Duarte", "Garry Rodrigues", "Jovane Cabral", "Ryan Mendes", "Dailon Livramento", "Willy Semedo", "Bebe"]},
+  {id:32, code:"ESP", name:"Espanha", group:"H", flag:"🇪🇸", stickerNums:null, players:["Emblem", "Unai Simon", "Robin Le Normand", "Aymeric Laporte", "Dean Huijsen", "Pedro Porro", "Dani Carvajal", "Marc Cucurella", "Martín Zubimendi", "Rodri", "Pedri", "Fabian Ruiz", "Team Photo", "Mikel Merino", "Lamine Yamal", "Dani Olmo", "Nico Williams", "Ferran Torres", "Álvaro Morata", "Mikel Oyarzabal"]},
+  {id:33, code:"AUT", name:"Áustria", group:"I", flag:"🇦🇹", stickerNums:null, players:["Emblem", "Alexander Schlager", "Patrick Pentz", "David Alaba", "Kevin Danso", "Philipp Lienhart", "Stefan Posch", "Phillipp Mwene", "Alexander Prass", "Xaver Schlager", "Marcel Sabitzer", "Konrad Laimer", "Team Photo", "Florian Grillitsch", "Nicolas Seiwald", "Romano Schmid", "Patrick Wimmer", "Christoph Baumgartner", "Michael Gregoritsch", "Marko Arnautović"]},
+  {id:34, code:"COD", name:"Congo DR", group:"I", flag:"🇨🇩", stickerNums:null, players:["Emblem", "Lionel Mpasi-Nzau", "Aaron Wan-Bissaka", "Axel Tuanzebe", "Arthur Masuaku", "Chancel Mbemba", "Joris Kayembe", "Charles Pickel", "Ngal'ayel Mukau", "Edo Kayembe", "Samuel Moutoussamy", "Noah Sadiki", "Team Photo", "Théo Bongonda", "Meschak Elia", "Yoane Wissa", "Brian Cipenga", "Fiston Mayele", "Cédric Bakambu", "Nathanaël Mbuku"]},
+  {id:35, code:"COL", name:"Colômbia", group:"I", flag:"🇨🇴", stickerNums:null, players:["Emblem", "Camilo Vargas", "David Ospina", "Dávinson Sánchez", "Yerry Mina", "Daniel Munoz", "Johan Mojica", "Jhon Lucumí", "Santiago Arias", "Jefferson Lerma", "Kevin Castaño", "Richard Rios", "Team Photo", "James Rodriguez", "Juan Fernando Quintero", "Jorge Carrascal", "Jhon Arias", "Jhon Cordova", "Luis Suarez", "Luis Diaz"]},
+  {id:36, code:"CRO", name:"Croácia", group:"I", flag:"🇭🇷", stickerNums:null, players:["Emblem", "Dominik Livaković", "Duje Caleta-Car", "Josko Gvardiol", "Josip Stanišić", "Luka Vušković", "Josip Sutalo", "Kristijan Jakic", "Luka Modrić", "Mateo Kovacic", "Martin Baturina", "Lovro Majer", "Team Photo", "Mario Pasalic", "Petar Sucic", "Ivan Perišić", "Marco Pasalic", "Ante Budimir", "Andrej Kramarić", "Franjo Ivanovic"]},
+  {id:37, code:"FRA", name:"França", group:"J", flag:"🇫🇷", stickerNums:null, players:["Emblem", "Mike Maignan", "Theo Hernandez", "William Saliba", "Jules Kounde", "Ibrahima Konate", "Dayot Upamecano", "Lucas Digne", "Aurélien Tchouaméni", "Eduardo Camavinga", "Manu Kone", "Adrien Rabiot", "Team Photo", "Michael Olise", "Ousmane Dembele", "Bradley Barcola", "Désiré Doué", "Kingsley Coman", "Hugo Ekitike", "Kylian Mbappe"]},
+  {id:38, code:"GHA", name:"Gana", group:"J", flag:"🇬🇭", stickerNums:null, players:["Emblem", "Lawrence Ati Zigi", "Tariq Lamptey", "Mohammed Salisu", "Alidu Seidu", "Alexander Djiku", "Gideon Mensah", "Caleb Yirenkyi", "Abdul Issahaku Fatawu", "Thomas Partey", "Salis Abdul Samed", "Kamaldeen Sulemana", "Team Photo", "Mohammed Kudus", "Inaki Williams", "Jordan Ayew", "André Ayew", "Joseph Paintsil", "Osman Bukari", "Antoine Semenyo"]},
+  {id:39, code:"IRQ", name:"Iraque", group:"J", flag:"🇮🇶", stickerNums:null, players:["Emblem", "Jalal Hassan", "Rebin Sulaka", "Hussein Ali", "Akam Hashem", "Merchas Doski", "Zaid Tahseen", "Manaf Younis", "Zidane Iqbal", "Amir Al-Ammari", "Ibrahim Bavesh", "Ali Jasim", "Team Photo", "Youssef Amyn", "Aimar Sher", "Marko Farji", "Osama Rashid", "Ali Al-Hamadi", "Aymen Hussein", "Mohanad Ali"]},
+  {id:40, code:"JOR", name:"Jordânia", group:"J", flag:"🇯🇴", stickerNums:null, players:["Emblem", "Yazeed Abulaila", "Ihsan Haddad", "Mohammad Abu Hashish", "Yazan Al-Arab", "Abdallah Nasib", "Saleem Obaid", "Mohammad Abualnadi", "Ibrahim Saadeh", "Nizar Al-Rashdan", "Noor Al-Rawabdeh", "Mohannad Abu Taha", "Team Photo", "Amer Jamous", "Musa Al-Taamari", "Yazan Al-Naimat", "Mahmoud Al-Mardi", "Ali Olwan", "Mohammad Abu Zrayq", "Ibrahim Sabra"]},
+  {id:41, code:"KSA", name:"Arábia Saudita", group:"K", flag:"🇸🇦", stickerNums:null, players:["Emblem", "Nawaf Alaqidi", "Abdulrahman Al-Sanbi", "Saud Abdulhamid", "Nawaf Bouwashl", "Jihad Thakri", "Moteb Al-Harbi", "Hassan Altambakti", "Musab Aljuwayr", "Ziyad Aljohani", "Abdullah Alkhaibari", "Nasser Aldawsari", "Team Photo", "Saleh Abu Alshamat", "Marwan Alsahafi", "Salem Aldawsari", "Abdulrahman Al-Aboud", "Feras Akbrikan", "Saleh Alshehri", "Abdullah Al-Hamdan"]},
+  {id:42, code:"NOR", name:"Noruega", group:"K", flag:"🇳🇴", stickerNums:null, players:["Emblem", "Orjan Nyland", "Julian Ryerson", "Leo Ostigård", "Kristoffer Vassbakk Ajer", "Marcus Holmgren Pedersen", "David Møller Wolfe", "Torbjørn Heggem", "Morten Thorsby", "Martin Ødegaard", "Sander Berge", "Andreas Schjelderup", "Team Photo", "Patrick Berg", "Erling Haaland", "Alexander Sørloth", "Aron Dønnum", "Jorgen Strand Larsen", "Antonio Nusa", "Oscar Bobb"]},
+  {id:43, code:"PAN", name:"Panamá", group:"K", flag:"🇵🇦", stickerNums:null, players:["Emblem", "Orlando Mosquera", "Luis Mejia", "Fidel Escobar", "Andres Andrade", "Michael Amir Murillo", "Eric Davis", "Jose Cordoba", "Cesar Blackman", "Cristian Martinez", "Aníbal Godoy", "Adalberto Carrasquilla", "Team Photo", "Édgar Bárcenas", "Carlos Harvey", "Ismael Díaz", "Jose Fajardo", "Cecilio Waterman", "Jose Luiz Rodriguez", "Alberto Quintero"]},
+  {id:44, code:"POR", name:"Portugal", group:"K", flag:"🇵🇹", stickerNums:null, players:["Emblem", "Diogo Costa", "José Sá", "Ruben Dias", "João Cancelo", "Diogo Dalot", "Nuno Mendes", "Gonçalo Inácio", "Bernardo Silva", "Bruno Fernandes", "Ruben Neves", "Vitinha", "Team Photo", "João Neves", "Cristiano Ronaldo", "Francisco Trincao", "João Felix", "Gonçalo Ramos", "Pedro Neto", "Rafael Leão"]},
+  {id:45, code:"SEN", name:"Senegal", group:"L", flag:"🇸🇳", stickerNums:null, players:["Emblem", "Édouard Mendy", "Yehvann Diouf", "Moussa Niakhaté", "Abdoulaye Seck", "Ismail Jakobs", "El Hadji Malick Diouf", "Kalidou Koulibaly", "Idrissa Gana Gueye", "Pape Matar Sarr", "Pape Gueye", "Habib Diarra", "Team Photo", "Lamine Camara", "Sadio Mane", "Ismaïla Sarr", "Boulaye Dia", "Iliman Ndiaye", "Nicolas Jackson", "Krepin Diatta"]},
+  {id:46, code:"URU", name:"Uruguai", group:"L", flag:"🇺🇾", stickerNums:null, players:["Emblem", "Sergio Rochet", "Santiago Mele", "Ronald Araujo", "José María Giménez", "Sebastian Caceres", "Mathias Olivera", "Guillermo Varela", "Nahitan Nandez", "Federico Valverde", "Giorgian De Arrascaeta", "Rodrigo Bentancur", "Team Photo", "Manuel Ugarte", "Nicolás de la Cruz", "Maxi Araujo", "Darwin Núñez", "Federico Viñas", "Rodrigo Aguirre", "Facundo Pellistri"]},
+  {id:47, code:"UZB", name:"Uzbequistão", group:"L", flag:"🇺🇿", stickerNums:null, players:["Emblem", "Utkir Yusupov", "Farrukh Savfiev", "Sherzod Nasrullaev", "Umar Eshmurodov", "Husniddin Aliqulov", "Rustamjon Ashurmatov", "Khojiakbar Alijonov", "Abdukodir Khusanov", "Odiljon Hamrobekov", "Otabek Shukurov", "Jamshid Iskanderov", "Team Photo", "Azizbek Turgunboev", "Khojimat Erkinov", "Eldor Shomurodov", "Oston Urunov", "Jaloliddin Masharipov", "Igor Sergeev", "Abbosbek Fayzullaev"]},
+  {id:48, code:"ENG", name:"Inglaterra", group:"L", flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", stickerNums:null, players:["Emblem", "Jordan Pickford", "John Stones", "Marc Guéhi", "Ezri Konsa", "Trent Alexander-Arnold", "Reece James", "Dan Burn", "Jordan Henderson", "Declan Rice", "Jude Bellingham", "Cole Palmer", "Team Photo", "Morgan Rogers", "Anthony Gordon", "Phil Foden", "Bukayo Saka", "Harry Kane", "Marcus Rashford", "Ollie Watkins"]},
+  {id:49, code:"STR", name:"Estrelas do Mundo", group:"★", flag:"🌟", stickerNums:null, players:["Lionel Messi", "Kylian Mbappé", "Vinícíús Júnior", "Jude Bellingham", "Erling Haaland", "Cristiano Ronaldo", "Mohamed Salah", "Alphonso Davies", "Heung-min Son", "Lamine Yamal", "Florian Wirtz", "Jérémy Doku", "Luis Díaz", "Cody Gakpo", "Christian Pulisic", "Federico Valverde", "Luka Modrić", "Moisés Caicedo", "Raúl Jiménez", "Achraf Hakimi"]},
+  {id:50, code:"CC1", name:"Coca‑Cola USA/Canadá", group:"CC", flag:"🅾️", stickerNums:null, players:["Lamine Yamal", "Joshua Kimmich", "Harry Kane", "Santiago Giménez", "Antonee Robinson", "Jefferson Lerma", "Edson Álvarez", "Virgil van Dijk", "Alphonso Davies", "Weston McKennie", "Lautaro Martínez", "Gabriel Magalhães", "—", "—", "—", "—", "—", "—", "—", "—"]},
+  {id:51, code:"CC2", name:"Coca‑Cola Europa", group:"CC", flag:"🅾️", stickerNums:null, players:["Lamine Yamal", "Joshua Kimmich", "Eduardo Camavinga", "Josko Gvardiol", "Federico Valverde", "Virgil van Dijk", "Alphonso Davies", "Raúl Jiménez", "William Saliba", "Lautaro Martínez", "Harry Kane", "Antonee Robinson", "—", "—", "—", "—", "—", "—", "—", "—"]},
+  {id:52, code:"CC3", name:"Coca‑Cola América Latina", group:"CC", flag:"🅾️", stickerNums:null, players:["Lamine Yamal", "Joshua Kimmich", "Harry Kane", "Santiago Giménez", "Josko Gvardiol", "Federico Valverde", "Jefferson Lerma", "Enner Valencia", "Gabriel Magalhães", "Virgil van Dijk", "Alphonso Davies", "Emiliano Martinez", "Raúl Jiménez", "Lautaro Martínez", "—", "—", "—", "—", "—", "—"]},
+  {id:53, code:"CC4", name:"Coca‑Cola Resto do Mundo", group:"CC", flag:"🅾️", stickerNums:null, players:["Lamine Yamal", "Joshua Kimmich", "Harry Kane", "Edson Álvarez", "Josko Gvardiol", "Federico Valverde", "Jefferson Lerma", "Enner Valencia", "Jordan Ayew", "Virgil van Dijk", "Alphonso Davies", "Weston McKennie", "Eduardo Camavinga", "Lautaro Martínez", "—", "—", "—", "—", "—", "—"]},
+];
+const TOTAL  = TEAMS.length * 20; // 54 seções × 20 = 1080 (980 oficiais + estrelas + coca-cola)
+const GROUPS = ['★','A','B','C','D','E','F','G','H','I','J','K','L','CC'];
+const GROUP_LABEL = {
+  '★': '⭐ Figurinhas Especiais',
+  'CC': '🅾️ Coca-Cola',
+  'A':'Grupo A','B':'Grupo B','C':'Grupo C','D':'Grupo D',
+  'E':'Grupo E','F':'Grupo F','G':'Grupo G','H':'Grupo H',
+  'I':'Grupo I','J':'Grupo J','K':'Grupo K','L':'Grupo L',
+};
+
+// ─── ESTADO ──────────────────────────────────────────────────────────────────
+let myState    = loadMyState();
+let otherState = null;
+let view       = 'home';
+let teamId     = null;
+
+function loadMyState() {
+  try {
+    const s = localStorage.getItem('album26v4');
+    if (s) { const p = JSON.parse(s); if (Array.isArray(p) && p.length === TOTAL) return p; }
+  } catch(_) {}
+  return new Array(TOTAL).fill(0);
+}
+function saveMyState() {
+  try { localStorage.setItem('album26v4', JSON.stringify(myState)); } catch(_) {}
+}
+function setStickerState(idx, val) {
+  myState[idx] = val; saveMyState(); render();
+}
+
+// ─── ENCODING ────────────────────────────────────────────────────────────────
+function encodeState(st) {
+  const bytes = [];
+  for (let i = 0; i < st.length; i += 4)
+    bytes.push((st[i]&3)|((st[i+1]&3)<<2)|((st[i+2]&3)<<4)|((st[i+3]&3)<<6));
+  return btoa(String.fromCharCode(...bytes)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
+}
+function decodeState(enc) {
+  try {
+    const b64 = enc.replace(/-/g,'+').replace(/_/g,'/');
+    const pad  = b64 + '='.repeat((4 - b64.length % 4) % 4);
+    const bin  = atob(pad);
+    const st   = [];
+    for (let i = 0; i < bin.length; i++) {
+      const b = bin.charCodeAt(i);
+      st.push(b&3,(b>>2)&3,(b>>4)&3,(b>>6)&3);
+    }
+    return st.slice(0, TOTAL);
+  } catch(_) { return null; }
+}
+
+// ─── URL / SHARE ─────────────────────────────────────────────────────────────
+function checkUrlShare() {
+  const m = location.hash.match(/[#&]share=([A-Za-z0-9_\-]+)/);
+  if (!m) return false;
+  const dec = decodeState(m[1]);
+  if (dec && dec.length === TOTAL) { otherState = dec; return true; }
+  return false;
+}
+function generateLink() {
+  const enc = encodeState(myState);
+  const url = location.href.split('#')[0] + '#share=' + enc;
+  const copy = txt => {
+    try {
+      const el = document.createElement('textarea');
+      el.value = txt; el.style.position='fixed'; el.style.opacity='0';
+      document.body.appendChild(el); el.select(); document.execCommand('copy');
+      document.body.removeChild(el);
+    } catch(_) {}
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(()=>showToast('🔗 Link copiado!')).catch(()=>{copy(url);showToast('🔗 Link copiado!');});
+  } else { copy(url); showToast('🔗 Link copiado!'); }
+}
+function exitComparison() {
+  otherState = null;
+  history.replaceState(null,'',location.pathname);
+  showToast('Modo cruzamento desativado','warn');
+  render();
+}
+
+// ─── STATS ───────────────────────────────────────────────────────────────────
+function overallStats() {
+  const hv = myState.filter(s=>s!==0).length;
+  return { hv, ms:TOTAL-hv, rp:myState.filter(s=>s===2).length, pct:Math.round(hv/TOTAL*100) };
+}
+function teamStats(tid) {
+  const sl = myState.slice(tid*20, tid*20+20);
+  const hv = sl.filter(s=>s!==0).length;
+  return { hv, total:20, pct:Math.round(hv/20*100) };
+}
+function cmpData() {
+  if (!otherState) return null;
+  const iNeed=[], theyNeed=[];
+  for (let i=0;i<TOTAL;i++) {
+    if (myState[i]===0 && otherState[i]===2) iNeed.push(i);
+    if (otherState[i]===0 && myState[i]===2) theyNeed.push(i);
+  }
+  const myHv = myState.filter(s=>s!==0).length;
+  const thHv = otherState.filter(s=>s!==0).length;
+  return { iNeed, theyNeed, myHv, thHv, diff:myHv-thHv };
+}
+function stickerInfo(i) {
+  const t = TEAMS[Math.floor(i/20)];
+  return { num:i+1, team:t, player:t.players[i%20] };
+}
+
+// ─── NAVEGAÇÃO ───────────────────────────────────────────────────────────────
+function goHome()    { view='home'; teamId=null; scrollTo(0,0); render(); }
+function goTeam(tid) { view='team'; teamId=tid;  scrollTo(0,0); render(); }
+
+// ─── FOTOS ───────────────────────────────────────────────────────────────────
+// Mapeia (team, playerIndex) → chave do PLAYERS (ex: 'bra1', 'fwc3', 'lm')
+const _FWC_IDS  = ['00','fwc1','fwc2','fwc3','fwc4','fwc5','fwc6','fwc7','fwc8',
+                   'fwc9','fwc10','fwc11','fwc12','fwc13','fwc14','fwc15','fwc16','fwc17','fwc18','fwc19'];
+const _STAR_IDS = ['lm','km','vj','jb','eh','cr','ms','ad','hs','ly',
+                   'fw','jd','ld','cg','cp','fv','lmo','mc','rj','ah'];
+const _CC_PFX   = {'CC1':'cc-us','CC2':'cc-eu','CC3':'cc-lam','CC4':'cc-rw'};
+
+function getStickerCode(team, playerIndex) {
+  const c = team.code;
+  if (c === 'FWC') return _FWC_IDS[playerIndex] || null;
+  if (c === 'STR') return _STAR_IDS[playerIndex] || null;
+  if (_CC_PFX[c])  return `${_CC_PFX[c]}${playerIndex+1}`;
+  // Times normais: bra1..bra20, arg1..arg20, eng1..eng20, etc.
+  return `${c.toLowerCase()}${playerIndex+1}`;
+}
+
+function getPlayerPhoto(team, playerIndex) {
+  if (typeof PLAYERS === 'undefined') return null;
+  const key = getStickerCode(team, playerIndex);
+  return (key && PLAYERS[key]) ? PLAYERS[key] : null;
+}
+
+// ─── HEADER ──────────────────────────────────────────────────────────────────
+function renderHeader() {
+  const {hv,pct} = overallStats();
+  document.getElementById('prog-fill').style.width = pct+'%';
+  const row = document.getElementById('hdr-row');
+  if (view==='home') {
+    row.innerHTML = `
+      <div class="hdr-left">
+        <div>
+          <div class="hdr-title">⚽ Álbum <span>Copa 2026</span></div>
+          <div class="hdr-sub">FIFA World Cup · Álbum Completo</div>
+        </div>
+        ${otherState?'<span class="badge-cmp">🔄 Cruzamento</span>':''}
+      </div>
+      <div class="hdr-pct">${pct}%<small>${hv}/${TOTAL} fig.</small></div>`;
+  } else {
+    const t = TEAMS[teamId];
+    row.innerHTML = `
+      <div class="hdr-left">
+        <button class="btn-back" onclick="goHome()">←</button>
+        <div>
+          <div class="hdr-title">${t.flag} ${t.name}</div>
+          <div class="hdr-sub">Grupo ${t.group} · 20 figurinhas</div>
+        </div>
+      </div>
+      <div class="hdr-pct">${pct}%<small>álbum geral</small></div>`;
+  }
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+function render() {
+  renderHeader();
+  const app = document.getElementById('app');
+  app.classList.remove('fade-in'); void app.offsetWidth; app.classList.add('fade-in');
+  app.innerHTML = view==='home' ? renderHome() : renderTeam();
+}
+
+function renderHome() {
+  const st  = overallStats();
+  const cmp = cmpData();
+  let h = '';
+
+  h += `<div class="hero">
+    <div class="hero-pct">${st.pct}%</div>
+    <div class="hero-label">do álbum completo · ${TOTAL} figurinhas</div>
+    <div class="hero-row">
+      <div class="hero-stat hv"><span class="hero-num">${st.hv}</span><span class="hero-slabel">Tenho</span></div>
+      <div class="hero-stat ms"><span class="hero-num">${st.ms}</span><span class="hero-slabel">Faltam</span></div>
+      <div class="hero-stat rp"><span class="hero-num">${st.rp}</span><span class="hero-slabel">Repetidas</span></div>
+    </div>
+  </div>`;
+
+  if (st.pct===100) {
+    h += `<div class="complete-banner"><div class="trophy">🏆</div><p>Parabéns! Álbum completo!</p></div>`;
+  }
+
+  if (cmp) {
+    const rankTxt = cmp.diff>0
+      ? `<div class="cmp-rank-txt win">🏆 Você está na frente por ${cmp.diff} figurinha${cmp.diff!==1?'s':''}!</div>`
+      : cmp.diff<0
+      ? `<div class="cmp-rank-txt lose">📉 Você está atrás por ${Math.abs(cmp.diff)} figurinha${Math.abs(cmp.diff)!==1?'s':''}</div>`
+      : `<div class="cmp-rank-txt tie">🤝 Vocês estão empatados!</div>`;
+    const pills = arr => arr.length===0
+      ? '<span class="cmp-empty">Nenhuma figurinha</span>'
+      : arr.map(i=>{ const s=stickerInfo(i); return `<span class="cmp-pill">#${s.num} ${s.team.flag} ${s.player}</span>`; }).join('');
+    h += `<div class="cmp-panel">
+      <div class="cmp-title">🔄 Modo Cruzamento Ativo</div>
+      <div class="cmp-rank">${rankTxt}<div class="cmp-rank-sub">Você: ${cmp.myHv} fig. · Ele/Ela: ${cmp.thHv} fig.</div></div>
+      <div class="cmp-sec">
+        <div class="cmp-sec-ttl g">✓ Você precisa · ele/ela tem repetida (${cmp.iNeed.length})</div>
+        <div class="cmp-pills">${pills(cmp.iNeed)}</div>
+      </div>
+      <div class="cmp-sec">
+        <div class="cmp-sec-ttl o">→ Ele/ela precisa · você tem repetida (${cmp.theyNeed.length})</div>
+        <div class="cmp-pills">${pills(cmp.theyNeed)}</div>
+      </div>
+      <button class="cmp-exit" onclick="exitComparison()">✕ Sair do modo cruzamento</button>
+    </div>`;
+  }
+
+  h += '<div class="groups-wrap"><div class="sec-lbl">Álbum completo · 54 seções</div>';
+  GROUPS.forEach(g => {
+    const gTeams = TEAMS.filter(t=>t.group===g);
+    if (!gTeams.length) return;
+    const label = GROUP_LABEL[g] || `Grupo ${g}`;
+    h += `<div class="grp-card"><div class="grp-hdr">${label}</div>`;
+    gTeams.forEach(t => {
+      const tp  = teamStats(t.id);
+      const cnt = t.players.filter(p=>p!=='—').length; // stickers reais (sem padding)
+      h += `<div class="team-row" onclick="goTeam(${t.id})">
+        <span class="t-flag">${t.flag}</span>
+        <div class="t-info">
+          <div class="t-name">${t.name}</div>
+          <div class="t-prog">${tp.hv}/${cnt} figurinhas</div>
+        </div>
+        <div class="t-bar"><div class="t-fill${tp.pct===100?' full':''}" style="width:${tp.pct}%"></div></div>
+        <span class="t-arr">›</span>
+      </div>`;
+    });
+    h += '</div>';
+  });
+  h += '</div>';
+  return h;
+}
+
+function renderTeam() {
+  const t   = TEAMS[teamId];
+  const tp  = teamStats(teamId);
+  const cmp = cmpData();
+
+  let h = `<div class="tv-hdr">
+    <div class="tv-flag">${t.flag}</div>
+    <div class="tv-name">${t.name}</div>
+    <div class="tv-grp">${GROUP_LABEL[t.group]||'Grupo '+t.group} · ${t.players.filter(p=>p!=='—').length} figurinhas</div>
+  </div>
+  <div class="tv-prog-box">
+    <div class="tv-prog-n">${tp.hv}<span>/20</span></div>
+    <div class="tv-prog-r">
+      <div class="tv-prog-lbl">${tp.pct}% completo</div>
+      <div class="tv-bar-t"><div class="tv-bar-f" style="width:${tp.pct}%"></div></div>
+    </div>
+  </div>
+  <div class="stk-wrap">`;
+
+  for (let p = 0; p < 20; p++) {
+    const idx  = teamId * 20 + p;
+    const st   = myState[idx];
+    const num  = idx + 1;
+    const name = t.players[p];
+    const isLogo = p === 0;
+    const isFoto = p === 12;
+    const icon = st===0?'○':st===1?'✓':'★';
+    const cls  = `stk-card ${st===0?'':'s'+st}`;
+
+    // Número da figurinha com cor especial para Logo/Foto
+    const numStyle = isLogo
+      ? 'style="background:linear-gradient(135deg,#7d6000,var(--gold));color:#000"'
+      : isFoto
+      ? 'style="background:linear-gradient(135deg,#1a3a6e,#4a90d9)"'
+      : '';
+
+    let cmpBadge = '';
+    if (cmp) {
+      if (myState[idx]===0 && otherState[idx]===2)
+        cmpBadge = '<span class="stk-cmp need">✓ Ele/ela tem repetida</span>';
+      else if (otherState[idx]===0 && myState[idx]===2)
+        cmpBadge = '<span class="stk-cmp give">→ Ele/ela precisa</span>';
+    }
+
+    const photoSrc = getPlayerPhoto(t, p);
+    const photoEl  = photoSrc
+      ? `<img class="stk-photo" src="${photoSrc}" alt="${name}" loading="lazy" onerror="this.style.display='none'">`
+      : '';
+
+    h += `<div class="${cls}">
+      <div class="stk-top">
+        <div class="stk-num" ${numStyle}>#${num}</div>
+        <div class="stk-name">${name}</div>
+        ${photoEl}
+        <div class="stk-icon">${icon}</div>
+      </div>
+      ${cmpBadge}
+      <div class="stk-btns">
+        <button class="btn-s btn-f${st===0?' on':''}" onclick="setStickerState(${idx},0)">✕ Falta</button>
+        <button class="btn-s btn-t${st===1?' on':''}" onclick="setStickerState(${idx},1)">✓ Tenho</button>
+        <button class="btn-s btn-r${st===2?' on':''}" onclick="setStickerState(${idx},2)">★ Repetida</button>
+      </div>
+    </div>`;
+  }
+
+  h += '</div>';
+  return h;
+}
+
+// ─── TOAST ───────────────────────────────────────────────────────────────────
+let _tid = null;
+function showToast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show'+(type?' '+type:'');
+  if (_tid) clearTimeout(_tid);
+  _tid = setTimeout(()=>el.className='', 3000);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+checkUrlShare();
+render();
+if (otherState) setTimeout(()=>showToast('🔄 Modo cruzamento ativo!'), 400);
+</script>
+</body>
+</html>

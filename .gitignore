@@ -1,0 +1,16 @@
+# Imagens baixadas (pesadas — baixe localmente com download_stickers.py)
+stickers/*.jpg
+stickers/*.png
+stickers/*.webp
+players/*.jpg
+players/*.png
+
+# Debug e temporários
+_debug_html/
+*.part
+*.pyc
+__pycache__/
+
+# Ambiente Python
+venv/
+.env
