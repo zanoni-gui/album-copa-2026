@@ -168,6 +168,44 @@ body{
   .hero-pct{font-size:3rem}
   .btn-s{font-size:.63rem;padding:7px 2px}
 }
+.auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-box{background:var(--bg2);border-radius:var(--rlg);padding:24px;width:100%;max-width:380px;border:1px solid rgba(255,255,255,.1);position:relative}
+.auth-title{font-size:1.1rem;font-weight:900;margin-bottom:4px;text-align:center}
+.auth-sub{font-size:.72rem;color:var(--muted);text-align:center;margin-bottom:18px}
+.auth-tabs{display:flex;border-radius:8px;overflow:hidden;margin-bottom:16px;border:1px solid rgba(255,255,255,.1)}
+.auth-tab{flex:1;padding:9px;text-align:center;font-size:.75rem;font-weight:700;cursor:pointer;background:rgba(255,255,255,.04);color:var(--muted);transition:background .15s}
+.auth-tab.on{background:var(--g);color:#fff}
+.auth-inp{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:9px;padding:11px 13px;color:var(--txt);font-size:.87rem;margin-bottom:10px;outline:none;transition:border-color .15s;font-family:inherit}
+.auth-inp:focus{border-color:var(--gl)}
+.auth-btn{width:100%;padding:12px;border-radius:9px;border:none;font-size:.87rem;font-weight:800;cursor:pointer;margin-bottom:8px;transition:transform .12s;font-family:inherit}
+.auth-btn.primary{background:linear-gradient(135deg,var(--gd),var(--g));color:#fff}
+.auth-btn.google{background:rgba(255,255,255,.08);color:var(--txt);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;gap:8px}
+.auth-btn:active{transform:scale(.97)}
+.auth-divider{text-align:center;font-size:.68rem;color:var(--dim);margin:2px 0 8px;letter-spacing:.5px}
+.auth-err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.28);color:var(--red);border-radius:7px;padding:8px 11px;font-size:.75rem;margin-bottom:10px;display:none}
+.auth-close{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.1);border:none;color:var(--txt);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+.user-badge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border-radius:20px;padding:5px 10px 5px 5px;cursor:pointer;border:none;color:#fff;font-size:.72rem;font-weight:700;flex-shrink:0;max-width:130px}
+.user-avatar{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#000;font-size:.65rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.user-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-login{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);color:#fff;border-radius:20px;padding:5px 12px;font-size:.72rem;font-weight:700;cursor:pointer;flex-shrink:0}
+#user-menu{position:fixed;top:58px;right:15px;z-index:400;background:var(--bg2);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);min-width:165px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+#user-menu .um-name{padding:10px 14px;font-size:.72rem;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.07)}
+#user-menu button{width:100%;padding:11px 14px;background:none;border:none;color:var(--txt);text-align:left;font-size:.82rem;cursor:pointer;font-weight:600;font-family:inherit}
+#user-menu .um-out{color:var(--red)}
+.rank-hero{padding:14px 15px 10px;text-align:center}
+.rank-hero h2{font-size:1.2rem;font-weight:900;margin-bottom:3px}
+.rank-hero p{font-size:.7rem;color:var(--muted)}
+.rank-wrap{padding:0 15px 20px}
+.rank-card{background:var(--card);border-radius:var(--r);padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.06)}
+.rank-card.rank-you{border-color:rgba(0,168,84,.4);background:rgba(0,168,84,.06)}
+.rank-pos{font-size:1.15rem;font-weight:900;min-width:30px;text-align:center}
+.rank-pos.p1{color:var(--gold)}.rank-pos.p2{color:#c0c0c0}.rank-pos.p3{color:#cd7f32}
+.rank-info{flex:1;min-width:0}
+.rank-name{font-size:.9rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-sub{font-size:.63rem;color:var(--muted);margin-top:1px}
+.rank-right{text-align:right;flex-shrink:0}
+.rank-num{font-size:1.05rem;font-weight:900;color:var(--em);line-height:1}
+.rank-pct{font-size:.63rem;color:var(--muted);margin-top:1px}
 </style>
 </head>
 <body>
@@ -182,9 +220,21 @@ body{
   <button class="fab" onclick="generateLink()">🔗 Gerar Meu Link</button>
 </div>
 <div id="toast"></div>
+<div id="user-menu" style="display:none"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="players.js" onerror="void 0"></script>
 <script>if(typeof PLAYERS==='undefined')window.PLAYERS={};</script>
 <script>
+// ─── SUPABASE CONFIG ─────────────────────────────────────────────────────────
+const SB_URL = 'https://mscistdoglkntveitsgd.supabase.co';
+const SB_KEY = 'sb_publishable_xTzKMHpKxl8Sbb7ekCFFSw_HAps7oCd';
+let _sb             = null;
+let currentUser     = null;
+let currentUserName = null;
+let _syncTimer      = null;
+let _rankData       = [];
+let _rankLoading    = false;
+
 // ─── DADOS ────────────────────────────────────────────────────────────────────
 // Posições: [0]=Logo FOIL, [1]=GK, [2-6]=DEF, [7-11]=MID, [12]=Foto Time,
 //           [13]=MID, [14-19]=ATK   •   stickerNums: preencher após scraper.py
@@ -272,7 +322,7 @@ function saveMyState() {
   try { localStorage.setItem('album26v4', JSON.stringify(myState)); } catch(_) {}
 }
 function setStickerState(idx, val) {
-  myState[idx] = val; saveMyState(); render();
+  myState[idx] = val; saveMyState(); render(); scheduleSyncToSupabase();
 }
 
 // ─── ENCODING ────────────────────────────────────────────────────────────────
@@ -384,6 +434,12 @@ function renderHeader() {
   const {hv,pct} = overallStats();
   document.getElementById('prog-fill').style.width = pct+'%';
   const row = document.getElementById('hdr-row');
+  const authEl = currentUser
+    ? `<button class="user-badge" onclick="toggleUserMenu()">
+        <div class="user-avatar">${(currentUserName||'?')[0].toUpperCase()}</div>
+        <span class="user-name">${currentUserName||''}</span>
+       </button>`
+    : `<button class="btn-login" onclick="openAuthModal()">Entrar</button>`;
   if (view==='home') {
     row.innerHTML = `
       <div class="hdr-left">
@@ -393,7 +449,20 @@ function renderHeader() {
         </div>
         ${otherState?'<span class="badge-cmp">🔄 Cruzamento</span>':''}
       </div>
-      <div class="hdr-pct">${pct}%<small>${hv}/${TOTAL} fig.</small></div>`;
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="btn-login" onclick="openRanking()" style="background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.3);color:var(--gold);padding:5px 10px">🏆</button>
+        ${authEl}
+      </div>`;
+  } else if (view==='ranking') {
+    row.innerHTML = `
+      <div class="hdr-left">
+        <button class="btn-back" onclick="closeRanking()">←</button>
+        <div>
+          <div class="hdr-title">🏆 Ranking</div>
+          <div class="hdr-sub">Top colecionadores</div>
+        </div>
+      </div>
+      ${authEl}`;
   } else {
     const t = TEAMS[teamId];
     row.innerHTML = `
@@ -412,8 +481,15 @@ function renderHeader() {
 function render() {
   renderHeader();
   const app = document.getElementById('app');
+  const fab = document.getElementById('fab');
   app.classList.remove('fade-in'); void app.offsetWidth; app.classList.add('fade-in');
-  app.innerHTML = view==='home' ? renderHome() : renderTeam();
+  if (view==='ranking') {
+    app.innerHTML = renderRanking();
+    fab.style.display = 'none';
+  } else {
+    app.innerHTML = view==='home' ? renderHome() : renderTeam();
+    fab.style.display = '';
+  }
 }
 
 function renderHome() {
@@ -553,6 +629,229 @@ function renderTeam() {
   return h;
 }
 
+// ─── SUPABASE INIT & SYNC ────────────────────────────────────────────────────
+async function initSupabase() {
+  if (typeof window.supabase === 'undefined') return;
+  _sb = window.supabase.createClient(SB_URL, SB_KEY);
+  const { data: { session } } = await _sb.auth.getSession();
+  if (session?.user) await onSignIn(session.user, false);
+  _sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session?.user) await onSignIn(session.user, true);
+    else if (event === 'SIGNED_OUT') { currentUser = null; currentUserName = null; render(); }
+  });
+}
+
+async function onSignIn(user, fromEvent) {
+  currentUser = user;
+  const { data: profile } = await _sb.from('profiles').select('name, album_state').eq('id', user.id).single();
+  if (!profile) {
+    const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário';
+    currentUserName = name;
+    await _sb.from('profiles').insert({
+      id: user.id, name,
+      album_state: encodeState(myState),
+      stickers_have: myState.filter(s=>s!==0).length,
+      stickers_repeat: myState.filter(s=>s===2).length,
+      completion_pct: Math.round(myState.filter(s=>s!==0).length/TOTAL*100)
+    });
+  } else {
+    currentUserName = profile.name;
+    if (profile.album_state) {
+      const dec = decodeState(profile.album_state);
+      if (dec && dec.length === TOTAL) { myState = dec; saveMyState(); }
+    }
+  }
+  closeAuthModal();
+  render();
+  if (fromEvent) showToast('✓ Bem-vindo, ' + currentUserName + '!');
+}
+
+async function syncToSupabase() {
+  if (!_sb || !currentUser) return;
+  const st = overallStats();
+  await _sb.from('profiles').upsert({
+    id: currentUser.id,
+    album_state: encodeState(myState),
+    stickers_have: st.hv,
+    stickers_repeat: st.rp,
+    completion_pct: st.pct,
+    updated_at: new Date().toISOString()
+  }, { onConflict: 'id' });
+}
+
+function scheduleSyncToSupabase() {
+  if (!_sb || !currentUser) return;
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(syncToSupabase, 1500);
+}
+
+// ─── AUTH MODAL ──────────────────────────────────────────────────────────────
+let _authMode = 'login';
+
+function openAuthModal(mode) {
+  _authMode = mode || 'login';
+  document.getElementById('auth-overlay')?.remove();
+  const el = document.createElement('div');
+  el.id = 'auth-overlay';
+  el.className = 'auth-overlay';
+  el.onclick = e => { if (e.target === el) closeAuthModal(); };
+  el.innerHTML = _buildAuthModal();
+  document.body.appendChild(el);
+  el.querySelector('.auth-inp')?.focus();
+}
+
+function _buildAuthModal() {
+  const isLogin = _authMode === 'login';
+  return `<div class="auth-box">
+    <button class="auth-close" onclick="closeAuthModal()">✕</button>
+    <div class="auth-title">⚽ Copa 2026</div>
+    <div class="auth-sub">${isLogin ? 'Entre para salvar seu álbum e ver o ranking' : 'Crie sua conta gratuita'}</div>
+    <div class="auth-tabs">
+      <div class="auth-tab${isLogin?' on':''}" onclick="openAuthModal('login')">Entrar</div>
+      <div class="auth-tab${!isLogin?' on':''}" onclick="openAuthModal('register')">Cadastrar</div>
+    </div>
+    <div class="auth-err" id="auth-err"></div>
+    ${!isLogin?'<input class="auth-inp" id="a-name" type="text" placeholder="Seu nome" autocomplete="name">':''}
+    <input class="auth-inp" id="a-email" type="email" placeholder="Email" autocomplete="email">
+    <input class="auth-inp" id="a-pass" type="password" placeholder="Senha" autocomplete="${isLogin?'current-password':'new-password'}">
+    <button class="auth-btn primary" onclick="submitAuth()">${isLogin?'Entrar':'Criar conta'}</button>
+    <div class="auth-divider">ou</div>
+    <button class="auth-btn google" onclick="signInGoogle()">
+      <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continuar com Google
+    </button>
+  </div>`;
+}
+
+function closeAuthModal() { document.getElementById('auth-overlay')?.remove(); }
+
+function _authErr(msg) {
+  const el = document.getElementById('auth-err');
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+
+async function submitAuth() {
+  if (!_sb) return _authErr('Supabase não inicializado');
+  const email = document.getElementById('a-email')?.value?.trim();
+  const pass  = document.getElementById('a-pass')?.value;
+  const name  = document.getElementById('a-name')?.value?.trim();
+  if (!email || !pass) return _authErr('Preencha email e senha');
+  if (_authMode === 'register' && !name) return _authErr('Informe seu nome');
+
+  if (_authMode === 'login') {
+    const { error } = await _sb.auth.signInWithPassword({ email, password: pass });
+    if (error) return _authErr(error.message === 'Invalid login credentials' ? 'Email ou senha incorretos' : error.message);
+  } else {
+    const { data, error } = await _sb.auth.signUp({ email, password: pass, options: { data: { full_name: name } } });
+    if (error) return _authErr(error.message);
+    if (data.user && !data.session) {
+      document.querySelector('.auth-box').innerHTML = `
+        <div style="text-align:center;padding:10px 0">
+          <div style="font-size:2.5rem;margin-bottom:12px">📧</div>
+          <div style="font-size:1rem;font-weight:900;margin-bottom:8px">Confirme seu email</div>
+          <div style="font-size:.8rem;color:var(--muted);line-height:1.5">Enviamos um link para <strong>${email}</strong>.<br>Clique no link para ativar sua conta.</div>
+          <button class="auth-btn primary" style="margin-top:20px" onclick="closeAuthModal()">Ok, entendi</button>
+        </div>`;
+      return;
+    }
+    if (data.user) {
+      await _sb.from('profiles').insert({
+        id: data.user.id, name,
+        album_state: encodeState(myState),
+        stickers_have: myState.filter(s=>s!==0).length,
+        stickers_repeat: myState.filter(s=>s===2).length,
+        completion_pct: Math.round(myState.filter(s=>s!==0).length/TOTAL*100)
+      });
+    }
+  }
+}
+
+async function signInGoogle() {
+  if (!_sb) return;
+  await _sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
+}
+
+async function signOut() {
+  if (!_sb) return;
+  await _sb.auth.signOut();
+  showToast('Saiu da conta', 'warn');
+}
+
+// ─── USER MENU ───────────────────────────────────────────────────────────────
+function toggleUserMenu() {
+  const el = document.getElementById('user-menu');
+  if (!el) return;
+  if (el.style.display === 'none') {
+    el.innerHTML = `
+      <div class="um-name">${currentUserName || ''}</div>
+      <button onclick="closeUserMenu();openRanking()">🏆 Ranking</button>
+      <button class="um-out" onclick="closeUserMenu();signOut()">↩ Sair</button>`;
+    el.style.display = 'block';
+    setTimeout(() => document.addEventListener('click', _closeMenuOutside, {once:true}), 50);
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+function _closeMenuOutside(e) {
+  const el = document.getElementById('user-menu');
+  if (el && !el.contains(e.target)) el.style.display = 'none';
+}
+
+function closeUserMenu() {
+  const el = document.getElementById('user-menu');
+  if (el) el.style.display = 'none';
+}
+
+// ─── RANKING ─────────────────────────────────────────────────────────────────
+async function loadRanking() {
+  if (!_sb) return;
+  _rankLoading = true; render();
+  const { data } = await _sb.from('profiles')
+    .select('id, name, stickers_have, stickers_repeat, completion_pct')
+    .order('stickers_have', { ascending: false })
+    .limit(50);
+  _rankData = data || [];
+  _rankLoading = false; render();
+}
+
+function openRanking() { view = 'ranking'; teamId = null; scrollTo(0,0); loadRanking(); }
+function closeRanking() { view = 'home'; render(); }
+
+function renderRanking() {
+  if (_rankLoading) return '<div style="text-align:center;padding:60px 20px;color:var(--muted)">Carregando ranking...</div>';
+  let h = `<div class="rank-hero"><h2>🏆 Ranking</h2><p>Top colecionadores da Copa 2026</p></div><div class="rank-wrap">`;
+  if (_rankData.length === 0) {
+    h += `<div style="text-align:center;padding:40px 20px">
+      <div style="font-size:2rem;margin-bottom:10px">🌟</div>
+      <div style="font-weight:700;margin-bottom:6px">Nenhum usuário ainda</div>
+      <div style="font-size:.78rem;color:var(--muted)">Cadastre-se e seja o primeiro do ranking!</div>
+    </div>`;
+  } else {
+    _rankData.forEach((u, i) => {
+      const pos = i + 1;
+      const icon = pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':pos;
+      const isYou = currentUser && u.id === currentUser.id;
+      h += `<div class="rank-card${isYou?' rank-you':''}">
+        <div class="rank-pos${pos<=3?' p'+pos:''}">${icon}</div>
+        <div class="rank-info">
+          <div class="rank-name">${u.name}${isYou?' <span style="color:var(--em);font-size:.6rem;font-weight:700"> (você)</span>':''}</div>
+          <div class="rank-sub">${u.stickers_repeat} repetidas</div>
+        </div>
+        <div class="rank-right">
+          <div class="rank-num">${u.stickers_have}</div>
+          <div class="rank-pct">${u.completion_pct}% completo</div>
+        </div>
+      </div>`;
+    });
+  }
+  h += '</div>';
+  if (!currentUser) {
+    h += `<div style="margin:0 15px 20px"><button class="auth-btn primary" style="margin:0" onclick="openAuthModal()">Entrar para aparecer no ranking</button></div>`;
+  }
+  return h;
+}
+
 // ─── TOAST ───────────────────────────────────────────────────────────────────
 let _tid = null;
 function showToast(msg, type='') {
@@ -567,6 +866,7 @@ function showToast(msg, type='') {
 checkUrlShare();
 render();
 if (otherState) setTimeout(()=>showToast('🔄 Modo cruzamento ativo!'), 400);
+initSupabase();
 </script>
 </body>
 </html>
