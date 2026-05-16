@@ -241,6 +241,8 @@ let currentUserName = null;
 let _syncTimer      = null;
 let _rankData       = [];
 let _rankLoading    = false;
+let _profileData    = null;
+let _profileLoading = false;
 
 // ─── DADOS ────────────────────────────────────────────────────────────────────
 // Posições: [0]=Logo FOIL, [1]=GK, [2-6]=DEF, [7-11]=MID, [12]=Foto Time,
@@ -490,6 +492,16 @@ function renderHeader() {
         </div>
       </div>
       ${authEl}`;
+  } else if (view==='profile') {
+    row.innerHTML = `
+      <div class="hdr-left">
+        <button class="btn-back" onclick="closeProfile()">←</button>
+        <div>
+          <div class="hdr-title">👤 ${_profileData?.name||'Perfil'}</div>
+          <div class="hdr-sub">Cruzamento de figurinhas</div>
+        </div>
+      </div>
+      ${authEl}`;
   } else {
     const t = TEAMS[teamId];
     row.innerHTML = `
@@ -520,6 +532,9 @@ function render() {
   app.classList.remove('fade-in'); void app.offsetWidth; app.classList.add('fade-in');
   if (view==='ranking') {
     app.innerHTML = renderRanking();
+    fab.style.display = 'none';
+  } else if (view==='profile') {
+    app.innerHTML = renderProfile();
     fab.style.display = 'none';
   } else {
     app.innerHTML = view==='home' ? renderHome() : renderTeam();
@@ -886,6 +901,84 @@ async function loadRanking() {
 function openRanking() { view = 'ranking'; teamId = null; scrollTo(0,0); loadRanking(); }
 function closeRanking() { view = 'home'; render(); }
 
+async function openProfile(userId, userName) {
+  view = 'profile'; _profileLoading = true;
+  _profileData = { id: userId, name: userName, stickers_have: 0, stickers_repeat: 0, completion_pct: 0, state: null };
+  scrollTo(0,0); render();
+  const { data } = await _sb.from('profiles')
+    .select('id, name, stickers_have, stickers_repeat, completion_pct, album_state')
+    .eq('id', userId).single();
+  if (data) {
+    _profileData = { ...data, state: data.album_state ? decodeState(data.album_state) : null };
+  }
+  _profileLoading = false; render();
+}
+function closeProfile() { view = 'ranking'; _profileData = null; render(); }
+
+function renderProfile() {
+  if (_profileLoading) return '<div style="text-align:center;padding:60px 20px;color:var(--muted)">Carregando perfil...</div>';
+  const p = _profileData;
+  if (!p) return '';
+  const otherSt = p.state;
+  let canGet = [], canGive = [];
+  if (currentUser && otherSt) {
+    for (let i = 0; i < TOTAL; i++) {
+      if (myState[i] === 0 && otherSt[i] === 2) canGet.push(i);
+      if (myState[i] === 2 && otherSt[i] === 0) canGive.push(i);
+    }
+  }
+  const pills = arr => arr.length === 0
+    ? '<span style="font-size:.72rem;color:var(--dim);font-style:italic">Nenhuma figurinha</span>'
+    : arr.slice(0,30).map(i => {
+        const t = TEAMS[Math.floor(i/20)];
+        return `<span style="background:rgba(255,255,255,.09);border-radius:5px;padding:3px 7px;font-size:.66rem;font-weight:600;white-space:nowrap">${t.flag} ${t.players[i%20]}</span>`;
+      }).join('') + (arr.length>30?`<span style="font-size:.66rem;color:var(--muted)"> +${arr.length-30} mais</span>`:'');
+
+  let h = `<div style="padding:20px 15px 14px;text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:8px">👤</div>
+    <div style="font-size:1.2rem;font-weight:900;margin-bottom:4px">${p.name}</div>
+    <div style="font-size:.72rem;color:var(--muted)">${p.stickers_have} figurinhas · ${p.completion_pct}% completo</div>
+  </div>
+  <div style="display:flex;gap:10px;padding:0 15px 16px">
+    <div style="flex:1;background:var(--card);border-radius:var(--r);padding:12px;text-align:center;border:1px solid rgba(255,255,255,.06)">
+      <div style="font-size:1.3rem;font-weight:900;color:var(--em)">${p.stickers_have}</div>
+      <div style="font-size:.63rem;color:var(--muted);margin-top:2px">Figurinhas</div>
+    </div>
+    <div style="flex:1;background:var(--card);border-radius:var(--r);padding:12px;text-align:center;border:1px solid rgba(255,255,255,.06)">
+      <div style="font-size:1.3rem;font-weight:900;color:var(--gold)">${p.completion_pct}%</div>
+      <div style="font-size:.63rem;color:var(--muted);margin-top:2px">Completo</div>
+    </div>
+    <div style="flex:1;background:var(--card);border-radius:var(--r);padding:12px;text-align:center;border:1px solid rgba(255,255,255,.06)">
+      <div style="font-size:1.3rem;font-weight:900;color:var(--orange)">${p.stickers_repeat}</div>
+      <div style="font-size:.63rem;color:var(--muted);margin-top:2px">Repetidas</div>
+    </div>
+  </div>`;
+
+  if (!currentUser) {
+    h += `<div style="margin:0 15px;background:rgba(255,255,255,.05);border-radius:var(--r);padding:20px;text-align:center;border:1px solid rgba(255,255,255,.08)">
+      <div style="font-weight:800;margin-bottom:6px">Entre para ver o cruzamento</div>
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:14px">Veja quais figurinhas vocês podem trocar</div>
+      <button class="auth-btn primary" style="margin:0" onclick="view='auth';render()">Entrar</button>
+    </div>`;
+  } else if (!otherSt) {
+    h += `<div style="margin:0 15px;padding:20px;text-align:center;color:var(--muted);font-size:.85rem">Este usuário ainda não sincronizou o álbum.</div>`;
+  } else {
+    h += `<div style="padding:0 15px">
+      <div style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.25);border-radius:var(--r);padding:14px;margin-bottom:10px">
+        <div style="font-size:.72rem;font-weight:900;color:var(--em);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">✓ Posso pegar (${canGet.length})</div>
+        <div style="font-size:.68rem;color:var(--muted);margin-bottom:10px">Ele/ela tem repetida · eu preciso</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">${pills(canGet)}</div>
+      </div>
+      <div style="background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);border-radius:var(--r);padding:14px">
+        <div style="font-size:.72rem;font-weight:900;color:var(--orange);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">→ Posso dar (${canGive.length})</div>
+        <div style="font-size:.68rem;color:var(--muted);margin-bottom:10px">Eu tenho repetida · ele/ela precisa</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">${pills(canGive)}</div>
+      </div>
+    </div>`;
+  }
+  return h;
+}
+
 function renderRanking() {
   if (_rankLoading) return '<div style="text-align:center;padding:60px 20px;color:var(--muted)">Carregando ranking...</div>';
   let h = `<div class="rank-hero"><h2>🏆 Ranking</h2><p>Top colecionadores da Copa 2026</p></div><div class="rank-wrap">`;
@@ -900,7 +993,8 @@ function renderRanking() {
       const pos = i + 1;
       const icon = pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':pos;
       const isYou = currentUser && u.id === currentUser.id;
-      h += `<div class="rank-card${isYou?' rank-you':''}">
+      const clickable = _sb && !isYou;
+      h += `<div class="rank-card${isYou?' rank-you':''}" ${clickable?`onclick="openProfile('${u.id}','${u.name.replace(/'/g,"\\'")}') " style="cursor:pointer"`:''}">
         <div class="rank-pos${pos<=3?' p'+pos:''}">${icon}</div>
         <div class="rank-info">
           <div class="rank-name">${u.name}${isYou?' <span style="color:var(--em);font-size:.6rem;font-weight:700"> (você)</span>':''}</div>
