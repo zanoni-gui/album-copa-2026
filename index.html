@@ -208,7 +208,8 @@ body{
 .rank-pct{font-size:.63rem;color:var(--muted);margin-top:1px}
 .auth-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 100%)}
 .auth-screen-logo{text-align:center;margin-bottom:28px}
-.auth-screen-logo .logo-icon{font-size:3.5rem;line-height:1;margin-bottom:10px;filter:drop-shadow(0 4px 16px rgba(0,98,51,.4))}
+.auth-screen-logo .logo-icon{margin-bottom:10px}
+.auth-screen-logo .logo-icon img{width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 6px 24px rgba(255,215,0,.35))}
 .auth-screen-logo .logo-title{font-size:1.5rem;font-weight:900;margin-bottom:3px}
 .auth-screen-logo .logo-sub{font-size:.72rem;color:var(--muted);letter-spacing:.8px;text-transform:uppercase}
 .auth-screen-box{background:var(--bg2);border-radius:var(--rlg);padding:24px;border:1px solid rgba(255,255,255,.1);width:100%;max-width:380px}
@@ -726,7 +727,7 @@ function renderAuthScreen() {
   const isLogin = _authMode === 'login';
   return `<div class="auth-screen">
     <div class="auth-screen-logo">
-      <div class="logo-icon">⚽</div>
+      <div class="logo-icon"><img src="logo.png" alt="Álgum da Copa"></div>
       <div class="logo-title">Álgum <span style="color:var(--gold)">da Copa</span></div>
       <div class="logo-sub">FIFA World Cup · Álbum Digital</div>
     </div>
