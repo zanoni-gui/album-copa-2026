@@ -327,8 +327,25 @@ function loadMyState() {
 function saveMyState() {
   try { localStorage.setItem('album26v4', JSON.stringify(myState)); } catch(_) {}
 }
+let myCount = loadMyCount();
+function loadMyCount() {
+  try {
+    const s = localStorage.getItem('album26v4_count');
+    if (s) { const p = JSON.parse(s); if (Array.isArray(p) && p.length === TOTAL) return p; }
+  } catch(_) {}
+  return new Array(TOTAL).fill(0);
+}
+function saveMyCount() {
+  try { localStorage.setItem('album26v4_count', JSON.stringify(myCount)); } catch(_) {}
+}
 function setStickerState(idx, val) {
-  myState[idx] = val; saveMyState(); render(); scheduleSyncToSupabase();
+  if (val === 2 && myState[idx] === 2) {
+    myCount[idx]++;
+  } else {
+    myState[idx] = val;
+    myCount[idx] = val === 2 ? 1 : 0;
+  }
+  saveMyState(); saveMyCount(); render(); scheduleSyncToSupabase();
 }
 
 // ─── ENCODING ────────────────────────────────────────────────────────────────
@@ -385,7 +402,8 @@ function exitComparison() {
 // ─── STATS ───────────────────────────────────────────────────────────────────
 function overallStats() {
   const hv = myState.filter(s=>s!==0).length;
-  return { hv, ms:TOTAL-hv, rp:myState.filter(s=>s===2).length, pct:Math.round(hv/TOTAL*100) };
+  const rp = myCount.reduce((a,b)=>a+b, 0);
+  return { hv, ms:TOTAL-hv, rp, pct:Math.round(hv/TOTAL*100) };
 }
 function teamStats(tid) {
   const sl = myState.slice(tid*20, tid*20+20);
@@ -634,7 +652,7 @@ function renderTeam() {
       <div class="stk-btns">
         <button class="btn-s btn-f${st===0?' on':''}" onclick="setStickerState(${idx},0)">✕ Falta</button>
         <button class="btn-s btn-t${st===1?' on':''}" onclick="setStickerState(${idx},1)">✓ Tenho</button>
-        <button class="btn-s btn-r${st===2?' on':''}" onclick="setStickerState(${idx},2)">★ Repetida</button>
+        <button class="btn-s btn-r${st===2?' on':''}" onclick="setStickerState(${idx},2)">${st===2?`★ ${myCount[idx]}x`:'★ Rep.'}</button>
       </div>
     </div>`;
   }
